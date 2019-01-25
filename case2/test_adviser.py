@@ -297,6 +297,7 @@ class TestClick():
         """aa"""
         self.index.getPortfolioNums()
         print("jajajjaja")
+        
         time.sleep(2)
 
 if __name__ == "__main__":
