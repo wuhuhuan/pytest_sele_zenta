@@ -45,9 +45,9 @@ class adviserMain(Base):
     targetPortfolioNums = []
     ordinaryPortfolios = []
     feePortfolios = []
-    loc_targetFindPortfolioRecordButton= ('xpath',   '/html/body/div[1]/div[2]/div/div[4]/div/div[1]/div[1]/a[1]')
-    loc_ordinaryFindPortfolioRecordButton= ('xpath',   '/html/body/div[1]/div[2]/div/div[4]/div/div[1]/div[1]/a[1]')
-    loc_feeFindPortfolioRecordButton = ('xpath',   '/html/body/div[1]/div[2]/div/div[4]/div/div[1]/div[1]/a[1]')
+    loc_targetFindPortfolioRecordButton= ('xpath',   '/html/body/div[1]/div[2]/div/div[4]/div/div[1]/a[1]')
+    loc_ordinaryFindPortfolioRecordButton= ('xpath',   '/html/body/div[1]/div[2]/div/div[4]/div/div[1]/a[1]')
+    loc_feeFindPortfolioRecordButton = ('xpath',   '/html/body/div[1]/div[2]/div/div[4]/div/div[1]/a[1]')
     loc_NotLogin = ('xpath', '//*[@id=\"loginf\"]')
     NotLoggedInext="立即登录"
     loc_unopenedAccountLogin=('xpath', '//*[@id=\"stockopen\"]')
@@ -128,7 +128,7 @@ class adviserMain(Base):
     # 获取模拟盘属性值
     def getPortfolioNums(self):
         """aa"""
-        eles = self.index.findElements(("xpath", "//div[contains(@class, 'stock-item')]"))
+        eles = self.findElements(("xpath", "//div[contains(@class, 'stock-item')]"))
         i = 0
         for ele in eles:
             text = str(ele.get_attribute("class"))
@@ -150,10 +150,11 @@ class adviserMain(Base):
             print("ordinaryPortfolio的值为：%s" % ordinaryPortfolio)
         for feePortfolio in self.feePortfolios:
             print("feePortfolio的值为：%s" % feePortfolio)
-        time.sleep(1)
-        self.loc_targetFindPortfolioRecordButton=('xpath', '/html/body/div[1]/div[2]/div/div[4]/div/' + str(self.targetPortfolioNums[0]) + 'div[1]/a[1]')
-        self.loc_ordinaryFindPortfolioRecordButton=('xpath', '/html/body/div[1]/div[2]/div/div[4]/div/' + str(self.ordinaryPortfolios[0]) + 'div[1]/a[1]')
-        self.loc_feeFindPortfolioRecordButton=('xpath', '/html/body/div[1]/div[2]/div/div[4]/div/' + str(self.feePortfolios[0]) + 'div[1]/a[1]')
+            "/html/body/div[1]/div[2]/div/div[4]/div/div[1]/a[1]"
+        self.loc_targetFindPortfolioRecordButton=('xpath', '/html/body/div[1]/div[2]/div/div[4]/div/div[' + str(self.targetPortfolioNums[0]) + ']/a[1]')
+        self.loc_ordinaryFindPortfolioRecordButton=('xpath', '/html/body/div[1]/div[2]/div/div[4]/div/div[' + str(self.ordinaryPortfolios[0]) + ']/a[1]')
+        self.loc_feeFindPortfolioRecordButton=('xpath', '/html/body/div[1]/div[2]/div/div[4]/div/div[' + str(self.feePortfolios[0]) + ']/a[1]')
+        return self.loc_targetFindPortfolioRecordButton,self.loc_ordinaryFindPortfolioRecordButton,self.loc_feeFindPortfolioRecordButton
     def gettest_menuid_data(self):
         return self.test_menuid_data
     def clickFindAdviserButton(self):

@@ -26,7 +26,7 @@ test_menuid_data = [
 class TestClick():
 
 
-    @pytest.fixture(scope="module")
+    @pytest.fixture(autouse=True)
     def maximize(self,driver):
         '''初始化'''
         self.index = adviserMain(driver)
@@ -52,7 +52,7 @@ class TestClick():
         print("result的结果为%s" % result)
         assert result
     def test_clickfindPortfolioButton(self):
-        """点击模拟盘按钮"""
+        """点击跟操作按钮"""
         self.index.clickfindPortfolioButton()
         time.sleep(3)
         result = self.index.is_clickfindPortfolioButton_sucess()
@@ -287,19 +287,17 @@ class TestClick():
                 print("stock-item:%s" % text)
         time.sleep(3)
 
-    @pytest.mark.baidu
-    def test_search(self):
-        """aa"""
-        self.index.baidu("aaaaaaaaaaa")
-        time.sleep(9)
-    @pytest.mark.aaaabbbbb
-    def test_search1(self):
-        """aa"""
-        self.index.getPortfolioNums()
-        print("jajajjaja")
-        
-        time.sleep(2)
+
+    # @pytest.mark.aaaabbbbb
+    # def test_search1(self):
+    #     """aa"""
+    #     aaa=self.index.getPortfolioNums()
+    #     print("jajajjaja;%s"%aaa[0][0],aaa[0][1])
+    #     print("jajajjaja;%s" % aaa[1][0], aaa[1][1])
+    #     print("jajajjaja;%s" % aaa[2][0], aaa[2][1])
+    #     # print("jajajjaja;%s" % aaa[1])
+    #     # print("jajajjaja;%s" % aaa[2])
 
 if __name__ == "__main__":
-    pytest.main(["-s", "--browser=chrome","--host=https://m.dev.hbec.com","-m","aaaabbbbb", "test_adviser.py","--html=./report/report.html","--self-contained-html"])
+    pytest.main(["-s", "-v","--browser=chrome","--host=https://m.dev.hbec.com", "test_adviser.py","--html=./report/report.html","--self-contained-html"])
     #pytest.main(["-s", "--browser=chrome","--host=https://m.dev.hbec.com", "test_adviser.py","--html=./report/report.html","--self-contained-html"])
