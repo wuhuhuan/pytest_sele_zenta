@@ -27,16 +27,13 @@ class TestClick():
 
 
     @pytest.fixture(autouse=True)
-    def maximize(self,driver):
+    def maximize(self,driver,host):
         '''初始化'''
         self.index = adviserMain(driver)
         self.index.getPortfolioNums
         driver.maximize_window()
-
-    @pytest.fixture(autouse=True)
-    def open_houtai(self, driver, host):
-        '''回到主页'''
         driver.get(host + url_hou)
+
     @pytest.mark.clickFindAdviserButton
     def test_clickFindAdviserButton(self):
         """点击找投顾按钮"""
@@ -142,60 +139,6 @@ class TestClick():
         print("result的结果为%s" % result)
         assert result
 
-    @pytest.mark.usefixtures("unopenedAccountLogin")
-    @pytest.mark.unopenedAccountLoginfindPortfolioRecordButton1
-    def test_unopenedAccountLoginfindPortfolioRecordButton1(self):
-        """未开户已登录点击目标收费模拟盘记录"""
-        self.index.clickfindPortfolioRecordButton(1)
-        result = self.index.is_clickfindPortfolioRecordButton_success(2)
-        print("result的结果为%s" % result)
-        assert result
-
-    @pytest.mark.usefixtures("unopenedAccountLogin")
-    @pytest.mark.unopenedAccountLoginfindPortfolioRecordButton2
-    def test_unopenedAccountLoginfindPortfolioRecordButton2(self):
-        """未开户已登录点击普通收费模拟盘记录"""
-        self.index.clickfindPortfolioRecordButton(2)
-        result = self.index.is_clickfindPortfolioRecordButton_success(2)
-        print("result的结果为%s" % result)
-        assert result
-
-    @pytest.mark.usefixtures("unopenedAccountLogin")
-    @pytest.mark.unopenedAccountLoginfindPortfolioRecordButton3
-    def test_unopenedAccountLoginfindPortfolioRecordButton3(self):
-        """未开户已登录点击未收费模拟盘记录"""
-        self.index.clickfindPortfolioRecordButton(3)
-        result = self.index.is_clickfindPortfolioRecordButton_success(2)
-        print("result的结果为%s" % result)
-        assert result
-
-    @pytest.mark.usefixtures("openedAccountLogin")
-    @pytest.mark.openedAccountLoginfindPortfolioRecordButton1
-    def test_openedAccountLoginfindPortfolioRecordButton1(self):
-        """已开户已登录点击目标付费模拟盘记录"""
-        self.index.clickfindPortfolioRecordButton(1)
-        result = self.index.is_clickfindPortfolioRecordButton_success(3)
-        print("result的结果为%s" % result)
-        assert result
-
-    @pytest.mark.usefixtures("openedAccountLogin")
-    @pytest.mark.openedAccountLoginfindPortfolioRecordButton2
-    def test_openedAccountLoginfindPortfolioRecordButton2(self):
-        """已开户已登录点击普通收费模拟盘记录"""
-        self.index.clickfindPortfolioRecordButton(2)
-        result = self.index.is_clickfindPortfolioRecordButton_success(3)
-        print("result的结果为%s" % result)
-        assert result
-
-    @pytest.mark.usefixtures("openedAccountLogin")
-    @pytest.mark.openedAccountLoginfindPortfolioRecordButton3
-    def test_openedAccountLoginfindPortfolioRecordButton3(self):
-        """已开户已登录点击免费模拟盘记录"""
-        self.index.clickfindPortfolioRecordButton(2)
-        result = self.index.is_clickfindPortfolioRecordButton_success(3)
-        print("result的结果为%s" % result)
-        assert result
-
 
     @pytest.mark.findPortfolioRecordAdviserButton
     def test_findPortfolioRecordAdviserButton(self):
@@ -208,50 +151,98 @@ class TestClick():
         print("result的结果为%s" % result1,result2)
         assert result3
 
-    @pytest.mark.clickviewpointRecord
-    def test_clickviewpointRecord(self):
-        """未登陆点击文章记录"""
-        self.index.clickviewpointRecord()
+    @pytest.mark.clickviewpointFeeRecord
+    def test_clickviewpointFeeRecord(self):
+        """未登陆点击免费文章记录"""
+        self.index.clickviewpointRecord('0')
         result1 = self.index.is_clickviewpointRecordAdviserName_success()
         result2 = self.index.is_clickviewpointRecordAdviserPicture_success()
         result3 = self.index.is_both_true(result1, result2)
         print("result的结果为%s" % result1, result2)
         assert result3
 
-    @pytest.mark.clickvideoDetailRecord
-    def test_clickvideoDetailRecord(self):
-        """未登陆点击视频文章记录"""
-        self.index.clickvideoDetailRecord()
-        result= self.index.is_clickvideoDetailRecord_success()
+    @pytest.mark.clickviewpointChargedRecord
+    def test_clickviewpointChargedRecord(self):
+        """未登陆点击付费文章记录"""
+        self.index.clickviewpointRecord('1')
+        result = self.index.is_clickviewpointRecord_success()
         print("result的结果为%s" % result)
         assert result
 
-    @pytest.mark.clicktwLiveRecord
-    def test_clicktwLiveRecord(self):
-        """未登陆点击图文直播记录"""
-        self.index.clicktwLiveRecord()
-        result= self.index.is_clicktwLiveRecord_success()
+
+    @pytest.mark.clickvideoDetailFeeRecord
+    def test_clickvideoDetailFeeRecord(self):
+        """未登陆点击免费视频文章记录"""
+        self.index.clickvideoDetailRecord("0")
+        result= self.index.is_clickvideoDetailRecord_success("0")
         print("result的结果为%s" % result)
         assert result
 
-    @pytest.mark.clickliveVideoRecord
-    def test_clickliveVideoRecord(self):
-        """未登陆点击视频直播记录"""
-        self.index.clickliveVideoRecord()
-        result = self.index.is_clickliveVideoRecord_success()
+    @pytest.mark.clickvideoDetailChargedRecord
+    def test_clickvideoDetailChargedRecord(self):
+        """未登陆点击付费视频文章记录"""
+        self.index.clickvideoDetailRecord("1")
+        result = self.index.is_clickvideoDetailRecord_success("1")
         print("result的结果为%s" % result)
         assert result
 
+    @pytest.mark.clicktwLiveFeeRecord
+    def test_clicktwLiveFeeRecord(self):
+        """未登陆点击免费图文直播记录"""
+        self.index.clicktwLiveRecord("0")
+        result= self.index.is_clicktwLiveRecord_success("0")
+        print("result的结果为%s" % result)
+        assert result
+
+    @pytest.mark.clicktwLiveChargedRecord
+    def test_clicktwLiveChargedRecord(self):
+        """未登陆点击付费图文直播记录"""
+        self.index.clicktwLiveRecord("1")
+        result = self.index.is_clicktwLiveRecord_success("1")
+        print("result的结果为%s" % result)
+        assert result
+
+
+    @pytest.mark.clickliveVideoFeeRecord
+    def test_clickliveVideoFeeRecord(self):
+        """未登陆点击免费视频直播记录"""
+        self.index.clickliveVideoRecord("0")
+        result = self.index.is_clickliveVideoRecord_success("0")
+        print("result的结果为%s" % result)
+        assert result
+
+
+
+    @pytest.mark.clickliveVideoChargedRecord
+    def test_clickliveVideoChargedRecord(self):
+        """未登陆点击付费视频直播记录"""
+        self.index.clickliveVideoRecord("1")
+        result = self.index.is_nologinclickliveVideoRecord_success()
+        print("result的结果为%s" % result)
+        assert result
+
+    @pytest.mark.aaaa
+    def test_aaaa(self):
+        loc_aaa=("xpath","/html/body/div[1]/div[2]/div/div[8]/div[4]/div[2]")
+        self.index.click(loc_aaa)
 
     @pytest.mark.clickcourseFeeRecord
     def test_clickcourseFeeRecord(self):
-        """点击免费课程"""
-        self.index.clickcourseFee()
-        result = self.index.is_clickcourseFee_success()
+        """未登录点击免费课程"""
+        self.index.clickcourse('0')
+        result = self.index.is_clickcourse_success('0')
         print("result的结果为%s" % result)
         assert result
 
-    @pytest.mark.usefixtures("login")
+    @pytest.mark.clickcourseChargedRecord
+    def test_clickcourseChargeRecord(self):
+        """未登录点击付费课程"""
+        #self.index.getCourseNums()
+        self.index.clickcourse('1')
+        result = self.index.is_clickcourse_success('1')
+        print("result的结果为%s" % result)
+        assert result
+
     @pytest.mark.clickeliteAdviserRecord
     def test_clickeliteAdviserRecord(self):
         """未登陆精英投顾记录"""
@@ -287,17 +278,8 @@ class TestClick():
                 print("stock-item:%s" % text)
         time.sleep(3)
 
-
-    # @pytest.mark.aaaabbbbb
-    # def test_search1(self):
-    #     """aa"""
-    #     aaa=self.index.getPortfolioNums()
-    #     print("jajajjaja;%s"%aaa[0][0],aaa[0][1])
-    #     print("jajajjaja;%s" % aaa[1][0], aaa[1][1])
-    #     print("jajajjaja;%s" % aaa[2][0], aaa[2][1])
-    #     # print("jajajjaja;%s" % aaa[1])
-    #     # print("jajajjaja;%s" % aaa[2])
-
 if __name__ == "__main__":
-    pytest.main(["-s", "-v","--browser=chrome","--host=https://m.dev.hbec.com", "test_adviser.py","--html=./report/report.html","--self-contained-html"])
-    #pytest.main(["-s", "--browser=chrome","--host=https://m.dev.hbec.com", "test_adviser.py","--html=./report/report.html","--self-contained-html"])
+    #pytest.main(["-s", "-v","-m=openedAccountLoginclickliveVideoFeeRecord","--browser=chrome","--host=https://m.dev.hbec.com", "test_adviser_purchasedAccountLogin.py","--html=./report/report.html","--self-contained-html"])
+    pytest.main(["-s", "-v", "--browser=chrome","--host=https://m.dev.hbec.com", "test_adviser_purchasedAccountLogin.py", "--html=./report.html","--self-contained-html"])
+
+    #pytest.main(["-s", "--browser=chrome","--host=https://m.dev.hbec.com", "test_adviser_purchasedAccountLogin.py","--html=./report/report.html","--self-contained-html"])

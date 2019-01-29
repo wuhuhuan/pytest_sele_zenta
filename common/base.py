@@ -28,6 +28,16 @@ class Base():
         else:
             return False
 
+    def findElementboolean(self, locator):
+        '''定位到元素，返回元素对象，没定位到，Timeout异常'''
+        if not isinstance(locator, tuple):
+            print('locator参数类型错误，必须传元祖类型：loc = ("id", "value1")')
+        elif isinstance(locator, tuple):
+            print("正在定位元素信息：定位方式->%s, value值->%s"%(locator[0], locator[1]))
+            ele = WebDriverWait(self.driver, self.timeout, self.t).until(EC.presence_of_element_located(locator))
+            return True
+        else:
+            return False
     def findElements(self, locator):
         if not isinstance(locator, tuple):
             print('locator参数类型错误，必须传元祖类型：loc = ("id", "value1")')
@@ -89,6 +99,15 @@ class Base():
             return result
         except:
             return False
+    def is_text_in_elementReverse(self, locator, _text=''):
+        '''返回bool值'''
+        if not isinstance(locator, tuple):
+            print('locator参数类型错误，必须传元祖类型：loc = ("id", "value1")')
+        try:
+            result = WebDriverWait(self.driver, self.timeout, self.t).until(EC.text_to_be_present_in_element(locator, _text))
+            return False
+        except:
+            return True
 
     def is_text_in_element_attribute(self, locator, _text='',attribute='src'):
         '''返回bool值'''
