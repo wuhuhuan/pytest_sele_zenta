@@ -23,6 +23,7 @@ test_menuid_data = [
     (loc_menuid_3, u"直面投顾，即时交流"),
     (loc_menuid_4, u"系统学习，进阶投资")
 ]
+
 class TestClick():
 
 
@@ -45,7 +46,6 @@ class TestClick():
         print("result的结果为%s" % result)
         assert result
 
-    @pytest.mark.usefixtures("openedAccountLogin")
     @pytest.mark.openedAccountLoginfindPortfolioRecordButton2
     def test_openedAccountLoginfindPortfolioRecordButton2(self):
         """已开户已登录点击普通收费模拟盘记录"""
@@ -54,7 +54,6 @@ class TestClick():
         print("result的结果为%s" % result)
         assert result
 
-    @pytest.mark.usefixtures("openedAccountLogin")
     @pytest.mark.openedAccountLoginfindPortfolioRecordButton3
     def test_openedAccountLoginfindPortfolioRecordButton3(self):
         """已开户已登录点击免费模拟盘记录"""
@@ -63,7 +62,6 @@ class TestClick():
         print("result的结果为%s" % result)
         assert result
 
-    @pytest.mark.usefixtures("openedAccountLogin")
     @pytest.mark.openedAccountLoginclickviewpointFeeRecord
     def test_openedAccountLoginclickviewpointFeeRecord(self):
         """已登陆点击免费文章记录"""
@@ -74,7 +72,6 @@ class TestClick():
         print("result的结果为%s" % result1, result2)
         assert result3
 
-    @pytest.mark.usefixtures("openedAccountLogin")
     @pytest.mark.openedAccountLoginclickviewpointChargedRecord
     def test_openedAccountLoginclickviewpointChargedRecord(self):
         """已登陆点击付费文章记录"""
@@ -85,7 +82,6 @@ class TestClick():
 
 
 
-    @pytest.mark.usefixtures("openedAccountLogin")
     @pytest.mark.openedAccountLoginclickvideoDetailFeeRecord
     def test_openedAccountLoginclickvideoDetailFeeRecord(self):
         """已登陆点击免费视频文章记录"""
@@ -94,7 +90,6 @@ class TestClick():
         print("result的结果为%s" % result)
         assert result
 
-    @pytest.mark.usefixtures("openedAccountLogin")
     @pytest.mark.openedAccountLoginclickvideoDetailChargedRecord
     def test_openedAccountLoginclickvideoDetailChargedRecord(self):
         """已登陆点击付费视频文章记录"""
@@ -105,7 +100,6 @@ class TestClick():
 
 
 
-    @pytest.mark.usefixtures("openedAccountLogin")
     @pytest.mark.clicktwLiveFeeLoginRecord
     def test_clicktwLiveFeeLoginRecord(self):
         """已登陆点击免费图文直播记录"""
@@ -114,7 +108,6 @@ class TestClick():
         print("result的结果为%s" % result)
         assert result
 
-    @pytest.mark.usefixtures("openedAccountLogin")
     @pytest.mark.clicktwLiveChargedLoginRecord
     def test_clicktwLiveChargedLoginRecord(self):
         """已登陆点击付费图文直播记录"""
@@ -123,17 +116,15 @@ class TestClick():
         print("result的结果为%s" % result)
         assert result
 
-    @pytest.mark.usefixtures("openedAccountLogin")
-    @pytest.mark.openedAccountLoginclickliveVideoFeeRecord
-    def test_openedAccountLoginclickliveVideoFeeRecord(self):
-        """已登陆点击免费视频直播记录"""
+    @pytest.mark.openedAccountLoginclickliveFeeVideRecord
+    def test_openedAccountLoginclickliveFeeVideRecord(self):
+        """已登录点击免费视频直播记录"""
         self.index.clickliveVideoRecord("0")
         result = self.index.is_clickliveVideoRecord_success("0")
         print("result的结果为%s" % result)
         assert result
 
 
-    @pytest.mark.usefixtures("openedAccountLogin")
     @pytest.mark.openedAccountLoginclickliveChargedVideRecord
     def test_openedAccountLoginclickliveChargedVideRecord(self):
         """已登录点击付费视频直播记录"""
@@ -143,9 +134,6 @@ class TestClick():
         assert result
 
 
-
-
-    @pytest.mark.usefixtures("openedAccountLogin")
     @pytest.mark.openedAccountLoginclickcourseFeeRecord
     def test_openedAccountLoginclickcourseFeeRecord(self):
         """已登录点击免费课程"""
@@ -154,7 +142,6 @@ class TestClick():
         print("result的结果为%s" % result)
         assert result
 
-    @pytest.mark.usefixtures("openedAccountLogin")
     @pytest.mark.openedAccountLoginclickcourseChargedRecord
     def test_openedAccountLoginclickcourseChargeRecord(self):
         """已登录点击付费课程"""
@@ -166,7 +153,7 @@ class TestClick():
 
 
 if __name__ == "__main__":
-    #pytest.main(["-s", "-v","-m=openedAccountLoginclickliveVideoFeeRecord","--browser=chrome","--host=https://m.dev.hbec.com", "test_adviser_purchasedAccountLogin.py","--html=./report/report.html","--self-contained-html"])
-    pytest.main(["-s", "-v", "--browser=chrome","--host=https://m.dev.hbec.com", "test_adviser_purchasedAccountLogin.py", "--html=./report/report.html","--self-contained-html"])
+    #pytest.main(["-s", "-v","-m=openedAccountLoginclickliveFeeVideRecord","--browser=chrome","--host=https://m.dev.hbec.com", "test_adviser_openedAccountLogin.py","--html=./report/report.html","--self-contained-html"])
+    pytest.main(["-s", "-v", "--browser=chrome","--host=https://m.dev.hbec.com", "test_adviser_openedAccountLogin.py", "--html=./report.html","--self-contained-html"])
 
     #pytest.main(["-s", "--browser=chrome","--host=https://m.dev.hbec.com", "test_adviser_purchasedAccountLogin.py","--html=./report/report.html","--self-contained-html"])

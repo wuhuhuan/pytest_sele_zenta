@@ -1,10 +1,7 @@
 #-*- coding: utf-8 -*-
 import pytest
 import time
-from page.adviserMain import adviserMain
-url_hou ="/adviser/index/main"
 
-url_hou1 =""
 """
 case/test_add_bug.py
 ** 吴沪欢
@@ -24,27 +21,17 @@ test_menuid_data = [
     (loc_menuid_4, u"系统学习，进阶投资")
 ]
 class TestClick():
-
-
-    @pytest.fixture(autouse=True)
-    def maximize(self,driver,host):
-        '''初始化'''
-        self.index = adviserMain(driver)
-        self.index.getPortfolioNums
-        driver.maximize_window()
-        driver.get(host + url_hou)
-
     @pytest.mark.clickFindAdviserButton
-    def test_clickFindAdviserButton(self):
+    def test_clickFindAdviserButton(self,index):
         """点击找投顾按钮"""
-        self.index.clickFindAdviserButton()
-        result = self.index.is_clickFindAdviserButton_sucess()
+        index.clickFindAdviserButton()
+        result = index.is_clickFindAdviserButton_sucess()
         print("result的结果为%s" % result)
         assert result
 
-    def test_clickliveButton(self):
-        """点击观看按钮"""
-        self.index.clickliveButton()
+    def test_clickliveButton(self,index):
+        """点击看直播按钮"""
+        index.clickliveButton()
         result = self.index.is_clickliveButton_sucess()
         print("result的结果为%s" % result)
         assert result
@@ -187,44 +174,40 @@ class TestClick():
         assert result
 
     @pytest.mark.clicktwLiveFeeRecord
-    def test_clicktwLiveFeeRecord(self):
+    def test_clicktwLiveFeeRecord(self,index):
         """未登陆点击免费图文直播记录"""
-        self.index.clicktwLiveRecord("0")
-        result= self.index.is_clicktwLiveRecord_success("0")
+        index.clicktwLiveRecord("0")
+        time.sleep(2)
+        result= index.is_clicktwLiveRecord_success("0")
         print("result的结果为%s" % result)
         assert result
 
     @pytest.mark.clicktwLiveChargedRecord
-    def test_clicktwLiveChargedRecord(self):
+    def test_clicktwLiveChargedRecord(self,index):
         """未登陆点击付费图文直播记录"""
-        self.index.clicktwLiveRecord("1")
-        result = self.index.is_clicktwLiveRecord_success("1")
+        index.clicktwLiveRecord("1")
+        result = index.is_clicktwLiveRecord_success("1")
         print("result的结果为%s" % result)
         assert result
 
 
     @pytest.mark.clickliveVideoFeeRecord
-    def test_clickliveVideoFeeRecord(self):
+    def test_clickliveVideoFeeRecord(self,index):
         """未登陆点击免费视频直播记录"""
-        self.index.clickliveVideoRecord("0")
-        result = self.index.is_clickliveVideoRecord_success("0")
+        index.clickliveVideoRecord("0")
+        result = index.is_clickliveVideoRecord_success("0")
         print("result的结果为%s" % result)
         assert result
 
 
 
     @pytest.mark.clickliveVideoChargedRecord
-    def test_clickliveVideoChargedRecord(self):
+    def test_clickliveVideoChargedRecord(self,index):
         """未登陆点击付费视频直播记录"""
-        self.index.clickliveVideoRecord("1")
-        result = self.index.is_nologinclickliveVideoRecord_success()
+        index.clickliveVideoRecord("1")
+        result = index.is_nologinclickliveVideoRecord_success()
         print("result的结果为%s" % result)
         assert result
-
-    @pytest.mark.aaaa
-    def test_aaaa(self):
-        loc_aaa=("xpath","/html/body/div[1]/div[2]/div/div[8]/div[4]/div[2]")
-        self.index.click(loc_aaa)
 
     @pytest.mark.clickcourseFeeRecord
     def test_clickcourseFeeRecord(self):
@@ -254,32 +237,9 @@ class TestClick():
         assert result3
 
 
-    @pytest.mark.checkMenuid
-    @pytest.mark.parametrize("loc_adviser, text", test_menuid_data, ids=[i[1] for i in test_menuid_data])
-    def test_checkMenuid(self,loc_adviser, text):
-        """首页文案验证"""
-        t2 = self.index.get_text(loc_adviser)
-        assert t2 == text
-    @pytest.mark.testa
-    def test_aaa(self):
-        """aa"""
-        eles=self.index.findElements(("xpath", "//div[contains(@class, 'stock-item')]"))
-        nums = []
-        i=0
-        for ele in eles:
-            text = str(ele.get_attribute("class"))
-            print("属性值为：%s" % text)
-            i=i+1
-            if text=='stock-item com_tips_aim':
-                print("stock-item com_tips_aim:%s" %text)
-            elif text=='stock-item com_tips':
-                print("stock-item com_tips:%s" % text)
-            else:
-                print("stock-item:%s" % text)
-        time.sleep(3)
 
 if __name__ == "__main__":
-    #pytest.main(["-s", "-v","-m=openedAccountLoginclickliveVideoFeeRecord","--browser=chrome","--host=https://m.dev.hbec.com", "test_adviser_purchasedAccountLogin.py","--html=./report/report.html","--self-contained-html"])
-    pytest.main(["-s", "-v", "--browser=chrome","--host=https://m.dev.hbec.com", "test_adviser_purchasedAccountLogin.py", "--html=./report.html","--self-contained-html"])
+    pytest.main(["-s", "-v","-m=clickliveVideoChargedRecord","--browser=chrome","--host=https://m.dev.hbec.com", "test_adviser_nologin.py","--html=./report/report.html","--self-contained-html"])
+    #pytest.main(["-s", "-v", "--browser=chrome","--host=https://m.dev.hbec.com", "test_adviser_nologin.py", "--html=./report.html","--self-contained-html"])
 
     #pytest.main(["-s", "--browser=chrome","--host=https://m.dev.hbec.com", "test_adviser_purchasedAccountLogin.py","--html=./report/report.html","--self-contained-html"])

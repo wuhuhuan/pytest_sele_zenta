@@ -555,7 +555,7 @@ class TestClick():
         time.sleep(3)
 
 if __name__ == "__main__":
-    #pytest.main(["-s", "-v","-m=openedAccountLoginclickliveVideoFeeRecord","--browser=chrome","--host=https://m.dev.hbec.com", "test_adviser_purchasedAccountLogin.py","--html=./report/report.html","--self-contained-html"])
-    pytest.main(["-s", "-v", "--browser=chrome","--host=https://m.dev.hbec.com", "test_adviser_purchasedAccountLogin.py", "--html=./report/report.html","--self-contained-html"])
+    pytest.main(["-s", "-v","-m=checkMenuid","--browser=chrome","--host=https://m.dev.hbec.com", "test_adviser_source.py","--html=./report/report.html","--self-contained-html"])
+    #pytest.main(["-s", "-v", "--browser=chrome","--host=https://m.dev.hbec.com", "test_adviser_purchasedAccountLogin.py", "--html=./report/report.html","--self-contained-html"])
 
     #pytest.main(["-s", "--browser=chrome","--host=https://m.dev.hbec.com", "test_adviser_purchasedAccountLogin.py","--html=./report/report.html","--self-contained-html"])

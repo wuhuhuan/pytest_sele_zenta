@@ -102,9 +102,40 @@ class TestClick():
         print("result的结果为%s" % result)
         assert result
 
+    @pytest.mark.unopenedAccountLoginclicktwLiveFeeLoginRecord
+    def test_unopenedAccountLoginclicktwLiveFeeLoginRecord(self):
+        """未开户点击免费图文直播记录"""
+        self.index.clicktwLiveRecord("0")
+        result = self.index.is_clicktwLiveRecord_success("0")
+        print("result的结果为%s" % result)
+        assert result
+
+    @pytest.mark.unopenedAccountLoginclicktwLiveChargedLoginRecord
+    def test_unopenedAccountLoginclicktwLiveChargedLoginRecord(self):
+        """未开户点击付费图文直播记录"""
+        self.index.clicktwLiveRecord("1")
+        result = self.index.is_clicktwLiveRecord_success("1")
+        print("result的结果为%s" % result)
+        assert result
+
+    @pytest.mark.unopenedAccountLoginclickliveFeeVideRecord
+    def test_unopenedAccountLoginclickliveFeeVideRecord(self):
+        """未开户点击免费视频直播记录"""
+        self.index.clickliveVideoRecord("0")
+        result = self.index.is_clickliveVideoRecord_success("0")
+        print("result的结果为%s" % result)
+        assert result
+
+    @pytest.mark.unopenedAccountLoginclickliveChargedVideRecord
+    def test_unopenedAccountLoginclickliveChargedVideRecord(self):
+        """未开户点击付费视频直播记录"""
+        self.index.clickliveVideoRecord("1")
+        result = self.index.is_clickliveVideoUnopenedRecord_success()
+        print("result的结果为%s" % result)
+        assert result
 
 if __name__ == "__main__":
-    #pytest.main(["-s", "-v","-m=openedAccountLoginclickliveVideoFeeRecord","--browser=chrome","--host=https://m.dev.hbec.com", "test_adviser_purchasedAccountLogin.py","--html=./report/report.html","--self-contained-html"])
-    pytest.main(["-s", "-v", "--browser=chrome","--host=https://m.dev.hbec.com", "test_adviser_purchasedAccountLogin.py", "--html=./report/report.html","--self-contained-html"])
+    pytest.main(["-s", "-v","-m=unopenedAccountLoginclickliveChargedVideRecord","--browser=chrome","--host=https://m.dev.hbec.com", "test_adviser_unopenedAccountLogin.py","--html=./report/report.html","--self-contained-html"])
+    #pytest.main(["-s", "-v", "--browser=chrome","--host=https://m.dev.hbec.com", "test_adviser_unopenedAccountLogin.py", "--html=./report/report.html","--self-contained-html"])
 
     #pytest.main(["-s", "--browser=chrome","--host=https://m.dev.hbec.com", "test_adviser_purchasedAccountLogin.py","--html=./report/report.html","--self-contained-html"])

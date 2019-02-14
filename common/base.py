@@ -4,19 +4,39 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.common.exceptions import StaleElementReferenceException
 
 """
 case/base.py文件
 ** 作者：上海-悠悠 QQ交流群：874033608**
 """
-class Base():
+class Base(object):
     '''基于原生的selenium做二次封装'''
 
     def __init__(self, driver):
         self.driver = driver
         self.timeout = 10
         self.t =0.5
+        # 判断元素是否相同
 
+    def compare_list_sucess(self, expectedlist=[],actuallist=[]):
+        self.result = False
+        print("expectedlist%sactuallist%s "%(len(expectedlist),len(actuallist)))
+        for index in range(len(expectedlist)):
+            if expectedlist[index] == actuallist[index]:
+                self.result = True
+            else:
+                self.result = False
+        print("result: %s " %self.result)
+        return self.result
+    def get_tuple_text(self,locator):
+        self.tuple=[]
+        eles=self.findElements(locator)
+        for ele in eles:
+            self.tuple.append(ele.text)
+            self.text=ele.text
+            print("text:"+self.text)
+        return self.tuple
     def findElement(self, locator):
         '''定位到元素，返回元素对象，没定位到，Timeout异常'''
         if not isinstance(locator, tuple):
@@ -34,10 +54,14 @@ class Base():
             print('locator参数类型错误，必须传元祖类型：loc = ("id", "value1")')
         elif isinstance(locator, tuple):
             print("正在定位元素信息：定位方式->%s, value值->%s"%(locator[0], locator[1]))
-            ele = WebDriverWait(self.driver, self.timeout, self.t).until(EC.presence_of_element_located(locator))
-            return True
+            try:
+                ele = WebDriverWait(self.driver, 0.5, self.t).until(EC.presence_of_element_located(locator))
+                return True
+            except:
+                return False
         else:
             return False
+
     def findElements(self, locator):
         if not isinstance(locator, tuple):
             print('locator参数类型错误，必须传元祖类型：loc = ("id", "value1")')
@@ -186,6 +210,32 @@ class Base():
         '''滚动到底部'''
         js = "window.scrollTo(%s,document.body.scrollHeight)"%x
         self.driver.execute_script(js)
+
+    def js_scroll_end_all1(self,locator,x=0):
+        '''加载全部'''
+        js = "window.scrollTo(%s,document.body.scrollHeight)"%x
+        sign=True
+        while sign:
+            if self.findElementboolean(locator):
+                try:
+                    if self.findElement(locator).text=="没有更多了":
+                        print ("-------:"+self.findElement(locator).text)
+                        sign=False
+                except StaleElementReferenceException as msg:
+                    print u"查找元素异常%s"%msg
+                    print u"重新获取元素%s"
+                    if self.findElement(locator).text=="没有更多了":
+                        print ("-------:"+self.findElement(locator).text)
+                        sign=False
+            else:
+                sign = False
+
+            self.driver.execute_script(js)
+    def js_scroll_end_all(self,x=0):
+        '''加载全部'''
+        js = "window.scrollTo(%s,document.body.scrollHeight)"%x
+        for i in range(100000000):
+            self.driver.execute_script(js)
 
     def select_by_index(self, locator, index=0):
         '''通过索引,index是索引第几个，从0开始，默认选第一个'''

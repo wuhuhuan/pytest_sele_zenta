@@ -122,6 +122,9 @@ class adviserMain(Base):
     liveVideoChargedRecordTitle=''
     loc_liveVideoChargedRecord_1 = ('xpath', '//*[@id="buy"]')
     liveVideoChargedRecordText='购买'
+    loc_liveVideoChargedunopenedRecord=('xpath', '//*[@id=\"agentForm\"]/div[1]/div[2]/div[2]/span/a')
+    liveVideoChargedunopenedRecordText='《华宝证券网上开户约定协议》'
+
 
     #未登录通用定位判断
 
@@ -200,12 +203,38 @@ class adviserMain(Base):
 
         for twLiveRecordfeeNum in self.twLiveRecordfeeNums:
             print("twLiveRecordfeeNum：%s" % twLiveRecordfeeNum)
-        self.loc_twLiveFeeRecord=('xpath', '/html/body/div[1]/div[2]/div/div[8]/div[' + str(self.twLiveRecordfeeNums[0]) + ']/div[1]/img')
-        self.loc_twLiveChargedRecord = ('xpath', '/html/body/div[1]/div[2]/div/div[8]/div[' + str(self.twLiveRecordChargedNums[0]) + ']/div[1]/img')
-        self.loc_liveVideoFeeRecord=('xpath', '/html/body/div[1]/div[2]/div/div[8]/div[' + str(self.liveVideoFeeRecord[0]) + ']/div[2]')
-        self.loc_liveVideoChargedRecord=('xpath', '/html/body/div[1]/div[2]/div/div[8]/div[' + str(self.liveVideoChargedRecord[0]) + ']/div[2]')
-        self.loc_liveVideoFeeRecordTitle=('xpath', '/html/body/div[1]/div[2]/div/div[8]/div[' + str(self.liveVideoFeeRecord[0]) + ']/div[2]/div[1]')
-        self.loc_liveVideoChargedRecordTitle = ('xpath', '/html/body/div[1]/div[2]/div/div[8]/div[' + str(self.liveVideoChargedRecord[0]) + ']/div[2]/div[1]')
+    #直播对应定位信息
+    def getliveElement(self,locMethod,head,end,sign):
+        #图文免费记录
+        if sign==1:
+            self.loc_twLiveFeeRecord=(str(locMethod), str(head) + str(self.twLiveRecordfeeNums[0]) + str(end))
+            return self.loc_twLiveFeeRecord
+            #return self.loc_twLiveFeeRecord=('xpath', '/html/body/div[1]/div[2]/div/div[8]/div[' + str(self.twLiveRecordfeeNums[0]) + ']/div[1]/img')
+        #图文直播付费
+        elif sign ==2:
+            #self.loc_twLiveChargedRecord = ('xpath', '/html/body/div[1]/div[2]/div/div[8]/div[' + str(self.twLiveRecordChargedNums[0]) + ']/div[1]/img')
+            self.loc_twLiveChargedRecord = (str(locMethod), str(head) + str(self.twLiveRecordChargedNums[0]) + str(end))
+            return self.loc_twLiveChargedRecord
+        # 视频直播不付费
+        elif sign ==3:
+            #self.loc_liveVideoFeeRecord=('xpath', '/html/body/div[1]/div[2]/div/div[8]/div[' + str(self.liveVideoFeeRecord[0]) + ']/div[2]')
+            self.loc_liveVideoFeeRecord = (str(locMethod), str(head) + str(self.liveVideoFeeRecord[0]) + str(end))
+            return self.loc_liveVideoFeeRecord
+        # 视频直播付费
+        elif sign ==4:
+            #self.loc_liveVideoChargedRecord=('xpath', '/html/body/div[1]/div[2]/div/div[8]/div[' + str(self.liveVideoChargedRecord[0]) + ']/div[2]')
+            self.loc_liveVideoChargedRecord = (str(locMethod), str(head) + str(self.liveVideoChargedRecord[0]) + str(end))
+            return self.loc_liveVideoChargedRecord
+        # 视频直播不付费预期结果
+        elif sign==5:
+            #self.loc_liveVideoFeeRecordTitle=('xpath', '/html/body/div[1]/div[2]/div/div[8]/div[' + str(self.liveVideoFeeRecord[0]) + ']/div[2]/div[1]')
+            self.loc_liveVideoFeeRecordTitle = (str(locMethod), str(head) + str(self.liveVideoFeeRecord[0]) + str(end))
+            return self.loc_liveVideoFeeRecordTitle
+        #视频直播付费预期结果
+        elif sign==6:
+            #self.loc_liveVideoChargedRecordTitle = ('xpath', '/html/body/div[1]/div[2]/div/div[8]/div[' + str(self.liveVideoChargedRecord[0]) + ']/div[2]/div[1]')
+            self.loc_liveVideoChargedRecordTitle = (str(locMethod), str(head) + str(self.liveVideoChargedRecord[0]) + str(end))
+            return self.loc_liveVideoChargedRecordTitle
 
     # 获取模拟盘属性值
     def getPortfolioNums(self):
@@ -465,7 +494,7 @@ class adviserMain(Base):
     def clicktwLiveRecord(self,sign):
         self.js_scroll_end()
         self.getLiveNums()
-        self.clickMethod(sign,self.loc_twLiveFeeRecord,self.loc_twLiveChargedRecord,"免费图文直播","付费图文直播")
+        self.clickMethod(sign,self.getliveElement('xpath','/html/body/div[1]/div[2]/div/div[8]/div[',']/div[1]/img',1),self.getliveElement('xpath','/html/body/div[1]/div[2]/div/div[8]/div[',']/div[1]/img',2),"免费图文直播","付费图文直播")
 
     def is_clicktwLiveRecord_success(self,sign):
         return self.is_success(sign,self.loc_twLivefeeDetail,self.twLiveFeeDetailText,self.loc_twLiveChargedDetail,self.twLiveChargedDetailText,"免费图文直播","付费图文直播")
@@ -474,14 +503,18 @@ class adviserMain(Base):
     def clickliveVideoRecord(self,sign):
         self.js_scroll_end()
         self.getLiveNums()
-        self.liveVideoFeeRecordTitle = self.get_text(self.loc_liveVideoFeeRecordTitle)
-        self.liveVideoChargedRecordTitle = self.get_text(self.loc_liveVideoChargedRecordTitle)
-
-        self.clickMethod(sign,self.loc_liveVideoFeeRecord,self.loc_liveVideoChargedRecord,"免费视频直播","付费视频直播")
+        self.liveVideoFeeRecordTitle = self.get_text(self.getliveElement('xpath', '/html/body/div[1]/div[2]/div/div[8]/div[', ']/div[2]/div[1]',5))
+        self.liveVideoChargedRecordTitle = self.get_text(self.getliveElement('xpath', '/html/body/div[1]/div[2]/div/div[8]/div[' , ']/div[2]/div[1]',6))
+        self.clickMethod(sign,self.getliveElement('xpath','/html/body/div[1]/div[2]/div/div[8]/div[',']/div[2]',3),self.getliveElement('xpath', '/html/body/div[1]/div[2]/div/div[8]/div[' , ']/div[2]',4),"免费视频直播","付费视频直播")
 
 
     def is_clickliveVideoRecord_success(self,sign):
         return self.is_success(sign, self.loc_liveVideoDetailTitle, self.liveVideoFeeRecordTitle, self.loc_liveVideoChargedRecord_1,self.liveVideoChargedRecordText, "免费图文直播", "付费图文直播")
+
+    def is_clickliveVideoUnopenedRecord_success(self):
+        return self.is_text_in_element(self.loc_liveVideoChargedunopenedRecord,self.liveVideoChargedunopenedRecordText)
+
+
     def is_nologinclickliveVideoRecord_success(self):
         return self.is_text_in_element(self.loc_unlogin,self.unloginText)
 
@@ -530,7 +563,7 @@ if __name__ == "__main__":
     chromedriver = "D:\myWebdriver\chromedriver.exe"
     driver = webdriver.Chrome(chromedriver)
     driver.maximize_window()
-    _enterPage(driver,"https://m.dev.hbec.com","/adviser/index/main")
+    _enterPage(driver,"https://m.dev.hbec.com")
     bug = adviserMain(driver)
     bug.clickFindAdviserButton()
     result = bug.is_clickFindAdviserButton_sucess("")
