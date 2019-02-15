@@ -6,7 +6,6 @@ from page.adviserMain import adviserMain
 from page.liveList_page import LiveList
 from page.weekCourseList_page import WeekCourseList
 url_index ="/adviser/index/main"
-aaa=None
 url_livelist ="/adviser/index/liveList"
 url_weekCourseList="/adviser/index/weekCourseList.htm"
 """
@@ -34,14 +33,14 @@ def purchasedAccountLogin(driver, host):
     yield
     # driver.delete_all_cookies()
 
-# @pytest.fixture(scope='session')
-# def index(driver,host):
-#     '''初始化'''
-#     index = adviserMain(driver)
-#     index.getPortfolioNums
-#     driver.maximize_window()
-#     driver.get(host + url_index)
-#     return index
+@pytest.fixture(scope='session')
+def index(driver,host):
+    '''初始化'''
+    index = adviserMain(driver)
+    index.getPortfolioNums
+    driver.maximize_window()
+    driver.get(host + url_index)
+    return index
 
 @pytest.fixture(scope='session')
 def livelist(driver,host):
@@ -50,17 +49,13 @@ def livelist(driver,host):
     driver.maximize_window()
     driver.get(host + url_livelist)
     return livelist
-# @pytest.fixture(scope='session')
-# def weekCourseList(driver,host):
-#     '''初始化'''
-#     weekCourseList=WeekCourseList(driver)
-#     driver.maximize_window()
-#     driver.get(host + url_weekCourseList)
-#     return weekCourseList
-# @pytest.fixture(scope='session')
-# def param():
-#     '''初始化'''
-#     aa = Text()
-#     param= aa.getCourseText()
-#     return param
+
+@pytest.fixture(scope='session')
+def weekCourseList(driver,host):
+    '''初始化'''
+    weekCourseList=WeekCourseList(driver)
+    driver.maximize_window()
+    driver.get(host + url_weekCourseList)
+    return weekCourseList
+
 
